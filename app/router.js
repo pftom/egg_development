@@ -1,5 +1,15 @@
 'use strict';
 
 module.exports = app => {
-  app.get('/', app.controller.home.index);
+  /*
+   *  events logic
+   *  
+   */ 
+  app.resources('events', '/home/events', 'events');
+  
+  /*
+   *  news logic
+   *  
+   */ 
+  app.resources('news', '/home/news', 'news');
 };

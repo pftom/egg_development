@@ -1,4 +1,7 @@
 'use strict';
 
-// had enabled by egg
-// exports.static = true;
+// mongoose enable
+exports.mongoose = {
+  enable: true,
+  package: 'egg-mongoose',
+};

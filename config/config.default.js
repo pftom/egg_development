@@ -6,8 +6,16 @@ module.exports = appInfo => {
   // use for cookie sign key, should change to your own and keep security
   config.keys = appInfo.name + '_1510398009790_3874';
 
-  // add your config here
-  config.middleware = [];
+  // mongoose config
+  config.mongoose = {
+    url: 'mongodb://localhost/test',
+    options: {},
+  };
+
+  // close the csrf
+  config.security = {
+    csrf: false,
+  };
 
   return config;
 };
