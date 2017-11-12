@@ -56,11 +56,22 @@ class NewsController extends Controller {
 
   async update() {
     const { ctx } = this;
-    const { request, params } = ctx;
-    const body = request.body;
-    const { id } = params;
+    const stream = await ctx.getFileStream();
+    const filename = encodeURIComponent(stream.fields.name) + path.extname(stream.filename).toLowerCase();
+    const target = path.join(this.config.baseDir, 'app/public', filename);
+    const writeStream = fs.createWriteStream(target);
 
     try {
+      await awaitWriteStream(stream.pipe(writeStream));
+
+      const { id } = ctx.params;
+      const { title, content } = stream.fields;
+
+      const body = {
+        title,
+        content,
+        image: '/public/' + filename,
+      }
       await ctx.model.News.update(
         { _id: id },
         { $set: { ...body } }

@@ -5,9 +5,15 @@ const Controller = require('egg').Controller;
 class ProfileController extends Controller {
   async addProfile() {
     const { ctx } = this;
-    const body = ctx.request.body;
+    const stream = await ctx.getFileStream();
+    const filename = encodeURIComponent(stream.fields._id) + path.extname(stream.filename).toLowerCase();
+    const target = path.join(this.config.baseDir, 'app/public', filename);
+    const writeStream = fs.createWriteStream(target);
 
     try {
+      await awaitWriteStream(stream.pipe(writeStream));
+
+      const body = { ...stream.fields, image: '/public/' + filename };
       const newProfile = new ctx.model.Profile(body);
       await newProfile.save();
       const { _id } = newProfile;
@@ -40,20 +46,29 @@ class ProfileController extends Controller {
 
   async editProfile() {
     const { ctx } = this;
-    const body = ctx.request.body;
-    const { _id } = body;
+    const stream = await ctx.getFileStream();
+    const filename = encodeURIComponent(stream.fields._id) + path.extname(stream.filename).toLowerCase();
+    const target = path.join(this.config.baseDir, 'app/public', filename);
+    const writeStream = fs.createWriteStream(target);
 
     try {
+      await awaitWriteStream(stream.pipe(writeStream));
+
+      const body = { ...stream.fields, image: '/public/' + filename };
+      const { _id } = body;
       await ctx.model.Profile.update(
         { _id },
-        { $set: { ...body } },
-      )
+        { $set: { ...body } }
+      );
 
-      ctx.body = 'change profile successfully!'
+      ctx.body = {
+        id: _id,
+        msg: 'update profile successfully!',
+      };
       ctx.status = 200;
     } catch(e) {
       ctx.body = e.msg;
-      ctx.statsu = 500;
+      ctx.status = 500;
     }
   }
 }
