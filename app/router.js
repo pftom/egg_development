@@ -13,7 +13,7 @@ module.exports = app => {
   // notice: no delete api
   app.post('/users/profile/new', app.controller.profile.addProfile);
   app.post('/users/profile', app.controller.profile.getProfile);
-  app.post('/users/profile/edit', app.controller.profile.editProfile);
+  app.put('/users/profile', app.controller.profile.updateProfile);
 
   // events logic
   app.resources('events', '/home/events', 'events');

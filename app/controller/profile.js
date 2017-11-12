@@ -44,7 +44,7 @@ class ProfileController extends Controller {
     }
   }
 
-  async editProfile() {
+  async updateProfile() {
     const { ctx } = this;
     const stream = await ctx.getFileStream();
     const filename = encodeURIComponent(stream.fields._id) + path.extname(stream.filename).toLowerCase();
