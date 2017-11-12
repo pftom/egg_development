@@ -10,7 +10,7 @@ module.exports = app => {
   const ProfileSchema = new mongoose.Schema({
     name: { type: String },
     sex: { type: String },
-    avatar: { type: String },
+    avatar: { type: String, default: '/public/avatar.png' },
     identity: { type: String, default: '共青团员' },
     college: { type: String, default: '计算机学院' },
     major: { type: String },
