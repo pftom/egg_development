@@ -10,6 +10,7 @@ module.exports = app => {
   const UserSchema = new mongoose.Schema({
     userName: { type: String, unique: true },
     password: { type: String },
+    createdAt: { type: Date, default: Date.now },
   });
 
   return mongoose.model('User', UserSchema);

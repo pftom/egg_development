@@ -11,6 +11,7 @@ module.exports = app => {
     title: { type: String },
     content: { type: String },
     image: { type: String },
+    createdAt: { type: Date, default: Date.now },
   });
 
   return mongoose.model('Events', EventsSchema);

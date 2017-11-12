@@ -99,6 +99,20 @@ class UserController extends Controller {
       ctx.status = 500;
     }
   }
+
+  async deleteUser() {
+    const { ctx } = this;
+    const { id } = ctx.params;
+    try {
+      await ctx.model.User.remove({ _id: id });
+
+      ctx.body = 'Delete user successfully!';
+      ctx.status = 200;
+    } catch(e) {
+      ctx.body = e.msg;
+      ctx.status = 500;
+    }
+  }
 }
 
 module.exports = UserController;
