@@ -10,8 +10,8 @@ module.exports = app => {
   const ProfileSchema = new mongoose.Schema({
     name: { type: String },
     sex: { type: String },
-    identity: { type: String },
-    college: { type: String },
+    identity: { type: String, default: '共青团员' },
+    college: { type: String, default: '计算机学院' },
     major: { type: String },
     studentId: { type: String},
     userId: { type: String },

@@ -57,3 +57,5 @@ class ProfileController extends Controller {
     }
   }
 }
+
+module.exports = ProfileController;
