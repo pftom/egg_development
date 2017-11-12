@@ -6,14 +6,14 @@ const Controller = require('egg').Controller;
 const awaitWriteStream = require('await-stream-ready').write;
 const sendToWormHole = require('stream-wormhole');
 
-class EventsController extends Controller {
-  async index () {
+class NewsController extends Controller {
+  async index() {
     const { ctx } = this;
-    ctx.body = await ctx.model.Events.find();
+    ctx.body = await ctx.model.News.find();
     ctx.status = 200;
   }
 
-  async create () {
+  async create() {
     const { ctx } = this;
     const stream = await ctx.getFileStream();
     const filename = encodeURIComponent(stream.fields.name) + path.extname(stream.filename).toLowerCase();
@@ -24,15 +24,15 @@ class EventsController extends Controller {
       await awaitWriteStream(stream.pipe(writeStream));
 
       const { title, content } = stream.fields;
-      const newEvent = new ctx.model.Events({
+      const newNews = new ctx.model.News({
         title,
         content,
         image: '/public/' + filename,
       });
 
-      await newEvent.save();
+      await newNews.save();
   
-      const { _id } = newEvent;
+      const { _id } = newNews;
       ctx.body = `
         imageUri: /public/${filename},
         title: ${title},
@@ -46,22 +46,22 @@ class EventsController extends Controller {
     }
   }
 
-  async show () {
+  async show() {
     const { ctx } = this;
     const { id } = ctx.params;
 
-    ctx.body = await ctx.model.Events.find({ _id: id });
+    ctx.body = await ctx.model.News.find({ _id: id });
     ctx.status = 200;
   }
 
-  async update () {
+  async update() {
     const { ctx } = this;
     const { request, params } = ctx;
     const body = request.body;
     const { id } = params;
 
     try {
-      await ctx.model.Events.update(
+      await ctx.model.News.update(
         { _id: id },
         { $set: { ...body } }
       );
@@ -73,12 +73,12 @@ class EventsController extends Controller {
     } 
   }
 
-  async destroy () {
+  async destroy() {
     const { ctx } = this;
     const { id } = ctx.params;
 
     try {
-      await ctx.model.Events.remove({ _id: id });
+      await ctx.model.News.remove({ _id: id });
 
       ctx.body = 'Delete successfully!';
     } catch (e) {
@@ -88,4 +88,4 @@ class EventsController extends Controller {
   }
 }
 
-module.exports = EventsController;
+module.exports = NewsController;

@@ -17,5 +17,7 @@ module.exports = appInfo => {
     csrf: false,
   };
 
+  // add view engine
+
   return config;
 };
