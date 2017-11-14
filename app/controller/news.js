@@ -50,7 +50,9 @@ class NewsController extends Controller {
     const { ctx } = this;
     const { id } = ctx.params;
 
-    ctx.body = await ctx.model.News.find({ _id: id });
+    // get single news from the db
+    const singleNews = await ctx.model.News.find({ _id: id });
+    ctx.body = singleNews[0];
     ctx.status = 200;
   }
 

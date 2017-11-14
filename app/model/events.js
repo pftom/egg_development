@@ -12,6 +12,8 @@ module.exports = app => {
     content: { type: String },
     image: { type: String, default: '/public/nodejs.png' },
     createdAt: { type: Date, default: Date.now },
+    headLine: { type: Boolean, default: false },
+    active: { type: Boolean, default: false },
   });
 
   return mongoose.model('Events', EventsSchema);
